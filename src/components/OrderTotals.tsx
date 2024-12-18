@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useCallback } from "react";
 import { formatCurrency } from "../helpers";
 import { TOrderItem } from "../types";
 type OrderTotalsProps = { 
