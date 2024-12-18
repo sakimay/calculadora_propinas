@@ -4,8 +4,9 @@ import { TOrderItem } from "../types";
 type OrderTotalsProps = { 
     order: TOrderItem[]
     tip: number
+    placeOrder: () => void
 }
-export default function OrderTotals({ order, tip }: OrderTotalsProps) {
+export default function OrderTotals({ order, tip , placeOrder}: OrderTotalsProps) {
 
     const subtotalAmount = useCallback(() => order.reduce((total, item) => total + (item.price * item.quantity), 0), [order])
     const tipAmount = useCallback(() => subtotalAmount() * tip, [tip, order])
@@ -25,7 +26,12 @@ export default function OrderTotals({ order, tip }: OrderTotalsProps) {
                     <span className="font-bold ml-2">{formatCurrency(totalAmount())}</span>
                 </p>
             </div>
-            <button></button>
+            <button className="w-full bg-black p-3 uppercase text-white font-bold mt-10 disabled:opacity-10"  
+                disabled={totalAmount() === 0}
+                onClick={placeOrder}
+            >
+                Guardar Pedido
+            </button>
         </>
     )
 }
