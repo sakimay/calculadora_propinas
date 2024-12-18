@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { formatCurrency } from "../helpers";
 import { TOrderItem } from "../types";
 type OrderTotalsProps = { 
@@ -7,21 +7,22 @@ type OrderTotalsProps = {
 }
 export default function OrderTotals({ order, tip }: OrderTotalsProps) {
 
-    const subtotalAmount = useMemo(() => order.reduce((total, item) => total + (item.price * item.quantity), 0), [order])
-    const tipAmount = useMemo(() => subtotalAmount * tip, [tip, order])
-    const totalAmount = useMemo(() => subtotalAmount + tipAmount, [tip, order])
+    const subtotalAmount = useCallback(() => order.reduce((total, item) => total + (item.price * item.quantity), 0), [order])
+    const tipAmount = useCallback(() => subtotalAmount() * tip, [tip, order])
+    const totalAmount = useCallback(() => subtotalAmount() + tipAmount(), [tip, order])
+
     return (
         <>
             <div className="space-y-3">
                 <h2 className="font-black text-2xl">Totales y Propina:</h2>
-                <p>Subtotal a pagar: {''}
-                    <span className="font-bold">{formatCurrency(subtotalAmount)}</span>
+                <p>Subtotal a pagar:
+                    <span className="font-bold ml-2">{formatCurrency(subtotalAmount())}</span>
                 </p>
-                <p>Propina: {''}
-                    <span className="font-bold">{formatCurrency(tipAmount)}</span>
+                <p>Propina:
+                    <span className="font-bold ml-2">{formatCurrency(tipAmount())}</span>
                 </p>
-                <p>Total a Pagar: {''}
-                    <span className="font-bold">{formatCurrency(totalAmount)}</span>
+                <p>Total a Pagar:
+                    <span className="font-bold ml-2">{formatCurrency(totalAmount())}</span>
                 </p>
             </div>
             <button></button>
