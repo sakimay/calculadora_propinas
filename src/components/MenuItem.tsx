@@ -1,5 +1,5 @@
 import { Dispatch } from 'react'
-import type { TMenuItem, TOrderItem } from '../types'
+import type { TMenuItem } from '../types'
 import { OrderActions } from '../reducers/order-reducer'
 
 type MenuItemProps = {
